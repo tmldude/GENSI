@@ -1,0 +1,23 @@
+/* NextSlideButton.css */
+
+.next-slide-button-container {
+    position: fixed;
+    bottom: 50px;
+    right: 40px;
+  }
+  
+  .next-slide-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .next-slide-button:hover {
+    background-color: #0056b3;
+  }
+  
