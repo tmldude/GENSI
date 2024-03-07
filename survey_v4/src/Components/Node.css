@@ -27,3 +27,11 @@
     z-index: 2; /* Set a higher z-index value for the text */
   }
   
+.node.selected .circle {
+    background-color: #ff0000; /* Red color when selected */
+  }
+  
+/* .node.selected .text {
+color: #ff0000; /* Red color for text when selected } 
+*/
+  

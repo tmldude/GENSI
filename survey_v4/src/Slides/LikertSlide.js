@@ -1,54 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import './LikertSlide.css'; // Import CSS file for styling
+import LikertScale from './LikertScale';
 
-const LikertScaleSlide = ({ question, updateSelection }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+const LikertScaleSlide = ({ questions, updateSelection }) => {
+  const [selectedOptions, setSelectedOptions] = useState(new Array(questions.length));
 
-  // Initialize selected option with initialSelection when the component mounts
-  
-
-  const handleOptionSelect = (option) => {
-    updateSelection(option);
-    setSelectedOption(option);
+  const handleOptionSelect = (index, option) => {
+    const temp = [...selectedOptions]
+    temp[index] = option
+    console.log(temp)
+    setSelectedOptions(temp)
+    updateSelection(temp);
   };
 
+
   return (
-    <div className="likert-scale-slide">
-      <h2 className="likert-scale-question">{question}</h2>
-      <div className="likert-scale-options">
-        <div
-          className={`likert-option${selectedOption === 'Strongly Disagree' ? ' selected' : ''}`}
-          onClick={() => handleOptionSelect('Strongly Disagree')}
-        >
-          Strongly Disagree
-        </div>
-        <div
-          className={`likert-option${selectedOption === 'Disagree' ? ' selected' : ''}`}
-          onClick={() => handleOptionSelect('Disagree')}
-        >
-          Disagree
-        </div>
-        <div
-          className={`likert-option${selectedOption === 'Neutral' ? ' selected' : ''}`}
-          onClick={() => handleOptionSelect('Neutral')}
-        >
-          Disagree
-        </div>
-        <div
-          className={`likert-option${selectedOption === 'Agree' ? ' selected' : ''}`}
-          onClick={() => handleOptionSelect('Agree')}
-        >
-          Disagree
-        </div>
-        <div
-          className={`likert-option${selectedOption === 'Strongly Agree' ? ' selected' : ''}`}
-          onClick={() => handleOptionSelect('Strongly Agree')}
-        >
-          Disagree
-        </div>
-        {/* Add similar divs for other options */}
-      </div>
-      <p className="selected-option">Selected option: {selectedOption}</p>
+    <div>
+      {questions.map((question, index) => (
+        <LikertScale question={question} index={index} updateSelection={handleOptionSelect}/>
+      ))}
     </div>
   );
 };

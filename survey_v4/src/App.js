@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+
 import MultipleChoiceSlide from "./Slides/MultipleChoiceSlide";
-import NextSlideButton from "./Components/NextSlideButton";
 import LikertScaleSlide from "./Slides/LikertSlide";
-import NodeConnectionSlide from "./Slides/NodeSelectionSlide"
+import NodeConnectionSlide from "./Slides/NodeSelectionSlide";
+
+import NextSlideButton from "./Components/NextSlideButton";
+import Banner from "./Components/Banner";
+import BannerImg from "./Images/cornell_seal_simple_web_b31b1b.svg";
 
 const App = () => {
   const [selectionData, setSelectionData] = useState([]);
@@ -20,11 +24,9 @@ const App = () => {
     options: ["Tokyo", "Seoul", "Beijing", "Bangkok"],
   };
   const slide2 = {
-    question: "How do you feel about hummas?",
+    questions: ["Hummus is good", "Bagels are good", "Tall", "Short"],
   };
-
-
-
+  const data = [10, 20, 30, 40, 50];
 
   const saveSelectionData = () => {
     setSelectionData([...selectionData, currentSelection]);
@@ -42,6 +44,8 @@ const App = () => {
 
   return (
     <div>
+      <Banner logo={BannerImg} text={"Cornell University"} />
+
       {slideIndex < total_slides ? (
         <>
           {slideIndex === 0 && (
@@ -58,12 +62,15 @@ const App = () => {
           )}
           {slideIndex === 2 && (
             <LikertScaleSlide
-              question={slide2.question} // Ensure to pass the 'question' property of the 'slide2' object
+              questions={slide2.questions} // Ensure to pass the 'question' property of the 'slide2' object
               updateSelection={updateCurrentSelection}
             />
           )}
           {slideIndex === 3 && (
-            <NodeConnectionSlide updateCurrentSelection={updateCurrentSelection} numNodes={5} />
+            <NodeConnectionSlide
+              updateCurrentSelection={updateCurrentSelection}
+              data={data}
+            />
           )}
 
           <NextSlideButton onClick={handleNextSlide} />
