@@ -8,7 +8,6 @@ const LikertScaleSlide = ({ questions, updateSelection }) => {
   const handleOptionSelect = (index, option) => {
     const temp = [...selectedOptions]
     temp[index] = option
-    console.log(temp)
     setSelectedOptions(temp)
     updateSelection(temp);
   };
@@ -17,7 +16,7 @@ const LikertScaleSlide = ({ questions, updateSelection }) => {
   return (
     <div>
       {questions.map((question, index) => (
-        <LikertScale question={question} index={index} updateSelection={handleOptionSelect}/>
+        <LikertScale question={question} key={index} index={index} updateSelection={handleOptionSelect}/>
       ))}
     </div>
   );

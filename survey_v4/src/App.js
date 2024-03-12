@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import MultipleChoiceSlide from "./Slides/MultipleChoiceSlide";
 import LikertScaleSlide from "./Slides/LikertSlide";
+import NodeInputSlide from "./Slides/NodeInputSlide";
 import NodeConnectionSlide from "./Slides/NodeSelectionSlide";
 
 import NextSlideButton from "./Components/NextSlideButton";
@@ -12,35 +13,44 @@ const App = () => {
   const [selectionData, setSelectionData] = useState([]);
   const [currentSelection, setCurrentSelection] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [nextBlocked, setNextBlocked] = useState(false);
 
-  const total_slides = 4;
-
-  const slide0 = {
-    question: "What is the capital of France?",
-    options: ["Paris", "Berlin", "Madrid", "Rome"],
-  };
-  const slide1 = {
-    question: "What is the capital of Japan?",
-    options: ["Tokyo", "Seoul", "Beijing", "Bangkok"],
-  };
-  const slide2 = {
-    questions: ["Hummus is good", "Bagels are good", "Tall", "Short"],
-  };
-  const data = [10, 20, 30, 40, 50];
+  const total_slides = 5;
 
   const saveSelectionData = () => {
     setSelectionData([...selectionData, currentSelection]);
+    console.log([...selectionData, currentSelection])
+
   };
 
   const updateCurrentSelection = (option) => {
     setCurrentSelection(option);
+    // console.log(option)
   };
 
   const handleNextSlide = () => {
+    console.log(currentSelection)
     setSlideIndex(slideIndex + 1);
     saveSelectionData();
     setCurrentSelection(null);
   };
+
+  const updateNextBlocked = (bool) => {
+    setNextBlocked(bool)
+  }
+
+  function generateColors(numColors) {
+    const colors = [];
+    const hueIncrement = 360 / numColors;
+  
+    for (let i = 0; i < numColors; i++) {
+      const hue = i * hueIncrement;
+      const color = `hsl(${hue}, 100%, 50%)`; // Use HSL color model
+      colors.push(color);
+    }
+    console.log(colors)
+    return colors;
+  }
 
   return (
     <div>
@@ -50,30 +60,45 @@ const App = () => {
         <>
           {slideIndex === 0 && (
             <MultipleChoiceSlide
-              {...slide0}
-              updateSelection={updateCurrentSelection}
+             question = "What is the capital of France?"
+             options = {["Paris", "Berlin", "Madrid", "Rome"]}
+             updateSelection={updateCurrentSelection}
             />
           )}
           {slideIndex === 1 && (
             <MultipleChoiceSlide
-              {...slide1}
+            question = "What is the capital of Japan?"
+            options = {["Tokyo", "Seoul", "Beijing", "Bangkok"]}
               updateSelection={updateCurrentSelection}
             />
           )}
           {slideIndex === 2 && (
             <LikertScaleSlide
-              questions={slide2.questions} // Ensure to pass the 'question' property of the 'slide2' object
+              questions={["Hummus is good", "Bagels are good", "Tall", "Short"]} // Ensure to pass the 'question' property of the 'slide2' object
               updateSelection={updateCurrentSelection}
             />
           )}
           {slideIndex === 3 && (
-            <NodeConnectionSlide
+            <NodeInputSlide
+              promptText = "Who are your closest friends?"
+              inlineText = "Write name"
               updateCurrentSelection={updateCurrentSelection}
-              data={data}
+              nextBlocked = {updateNextBlocked}
+
+            />
+          )}
+          {slideIndex === 4 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[3]}
+              colors = {selectionData && selectionData[3] ? generateColors(selectionData[3].length) : 0}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {updateNextBlocked}
+
+              
             />
           )}
 
-          <NextSlideButton onClick={handleNextSlide} />
+          <NextSlideButton nextBlocked={nextBlocked} onClick={handleNextSlide} />
         </>
       ) : (
         <>
@@ -100,3 +125,25 @@ export default App;
 //     <NextSlideButton onClick={handleNextSlide} />
 //   </>
 // ) : (<p>No more slides</p>) }
+
+
+// const slide0 = {
+//   question: "What is the capital of France?",
+//   options: ["Paris", "Berlin", "Madrid", "Rome"],
+// };
+// const slide1 = {
+//   question: "What is the capital of Japan?",
+//   options: ["Tokyo", "Seoul", "Beijing", "Bangkok"],
+// };
+// const slide2 = {
+//   questions: ["Hummus is good", "Bagels are good", "Tall", "Short"],
+// };
+// const slide3 = {
+//   promptText: "Who are your closest friends?",
+//   inlineText: "Write Name",
+// };
+// const slide4 = {
+//   questions: ["Hummus is good", "Bagels are good", "Tall", "Short"],
+// };
+// //const data = [10, 20, 30, 40, 50];
+

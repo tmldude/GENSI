@@ -1,17 +1,19 @@
 .node-box {
-    position: relative;
-    top: 200px;
-    max-width: 600px;
-    max-height: 600px;
-    height: 400px;
-    margin: 0 auto;
-    padding: 20px 20px;
-    background-color: aquamarine;
-    justify-content: 'center';
-    align-items: 'center';
+  position: relative;
+  max-width: 600px;
+  max-height: 600px;
+  height: 400px;
+  margin: 0 auto;
+  /* padding: 20px 20px; */
+  background-color: aquamarine;
+  justify-content: "center";
+  align-items: "center";
+  border-radius: 3%;
+  margin-top: 100px;
+  padding: 10px;
 }
 .svg {
-    width: 100%; /* Make the SVG element fill the container */
-    height: 100%; /* Make the SVG element fill the container */
-    overflow: hidden; /* Hide overflow content */
-  }
+  width: 100%; /* Make the SVG element fill the container */
+  height: 100%; /* Make the SVG element fill the container */
+  overflow: hidden; /* Hide overflow content */
+}
