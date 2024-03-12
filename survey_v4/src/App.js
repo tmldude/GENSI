@@ -39,19 +39,6 @@ const App = () => {
     setNextBlocked(bool)
   }
 
-  function generateColors(numColors) {
-    const colors = [];
-    const hueIncrement = 360 / numColors;
-  
-    for (let i = 0; i < numColors; i++) {
-      const hue = i * hueIncrement;
-      const color = `hsl(${hue}, 100%, 50%)`; // Use HSL color model
-      colors.push(color);
-    }
-    console.log(colors)
-    return colors;
-  }
-
   return (
     <div>
       <Banner logo={BannerImg} text={"Cornell University"} />
@@ -83,16 +70,15 @@ const App = () => {
               promptText = "Who are your closest friends?"
               inlineText = "Write name"
               updateCurrentSelection={updateCurrentSelection}
-              nextBlocked = {updateNextBlocked}
+              nextBlocked = {nextBlocked}
 
             />
           )}
           {slideIndex === 4 && (
             <NodeConnectionSlide
               nodeNames = {selectionData[3]}
-              colors = {selectionData && selectionData[3] ? generateColors(selectionData[3].length) : 0}
               updateCurrentSelection={updateCurrentSelection}
-              nextBlocked = {updateNextBlocked}
+              nextBlocked = {nextBlocked}
 
               
             />
