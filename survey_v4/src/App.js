@@ -42,7 +42,13 @@ const App = () => {
   return (
     <div>
       <Banner logo={BannerImg} text={"Cornell University"} />
+      <NodeConnectionSlide
+              nodeNames = {['0', '1', '2', '3', '4', '5']}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}
 
+              
+            />
       {slideIndex < total_slides ? (
         <>
           {slideIndex === 0 && (

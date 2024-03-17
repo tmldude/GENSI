@@ -9,8 +9,10 @@
   justify-content: "center";
   align-items: "center";
   border-radius: 3%;
+  /* border-width: 10px; */
+  border: 5px solid black; /* Border with 2px width, solid style, and black color */
   margin-top: 100px;
-  padding: 10px;
+  /* padding: 10px; */
 }
 .svg {
   width: 100%; /* Make the SVG element fill the container */
