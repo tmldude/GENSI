@@ -10,48 +10,91 @@ import NextSlideButton from "./Components/NextSlideButton.js";
 import Banner from "./Components/Banner.js";
 import BannerImg from "./Images/cornell_seal_simple_web_b31b1b.svg";
 
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "./config/firestore.js";
+
 const App = () => {
-  const [selectionData, setSelectionData] = useState([])
-  // const [selectionData, setSelectionData] = useState({
-  //   safe_persons: [],
-  //   close_proximity: [],
-  //   sense_of_security: [],
-  //   anxious_or_distressed: [],
-  //   good_happened: [],
-  //   bad_happened: [],
-  //   safe_to_you: [],
-  //   close_proximity_to_you: [],
-  //   sense_of_security_to_you: [],
-  //   anxious_or_distressed_to_you: [],
-  //   good_happened_to_you: [],
-  //   bad_happened_to_you: [],
-  //   all_people: [],
-  //   all_people_network: [],
-  // });
+  const [selectionData, setSelectionData] = useState([]);
   const [currentSelection, setCurrentSelection] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const [nextBlocked, setNextBlocked] = useState(false);
 
+  const add_to_firebase = async (e) => {
+    console.log({
+      safe_persons: selectionData[0],
+      close_proximity: selectionData[1],
+      sense_of_security: selectionData[2],
+      anxious_or_distressed: selectionData[3],
+      good_happened: selectionData[4],
+      bad_happened: selectionData[5],
+      safe_to_you: selectionData[6],
+      close_proximity_to_you: selectionData[7],
+      sense_of_security_to_you: selectionData[8],
+      anxious_or_distressed_to_you: selectionData[9],
+      good_happened_to_you: selectionData[10],
+      bad_happened_to_you: selectionData[11],
+      all_people: selectionData[12],
+      all_people_network: selectionData[13].map(
+        (item) => `(${item[0]},${item[1]})`
+      ),
+      survey_feedback: selectionData[14],
+    });
+    try {
+      const docRef = await addDoc(collection(db, "Participant_Response"), {
+        safe_persons: selectionData[0],
+        close_proximity: selectionData[1],
+        sense_of_security: selectionData[2],
+        anxious_or_distressed: selectionData[3],
+        good_happened: selectionData[4],
+        bad_happened: selectionData[5],
+        safe_to_you: selectionData[6],
+        close_proximity_to_you: selectionData[7],
+        sense_of_security_to_you: selectionData[8],
+        anxious_or_distressed_to_you: selectionData[9],
+        good_happened_to_you: selectionData[10],
+        bad_happened_to_you: selectionData[11],
+        all_people: selectionData[12],
+        all_people_network: selectionData[13].map(
+          (item) => `(${item[0]},${item[1]})`
+        ),
+        survey_feedback: selectionData[14],
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
+  };
 
-  const total_slides = 13;
+  const total_slides = 14;
 
   const saveSelectionData = () => {
-    console.log(slideIndex)
+    console.log(slideIndex);
 
-    if (slideIndex === 11) { // This data needs to be saved manually before the every nominated person slide
-      const no_dup = [...new Set(selectionData[0].concat(
-        selectionData[1],
-        selectionData[2],
-        selectionData[3],
-        selectionData[4],
-        selectionData[5]
-      ))]
-  
+    if (slideIndex === 11) {
+      // This data needs to be saved manually before the every nominated person slide
+      const no_dup = [
+        ...new Set(
+          selectionData[0].concat(
+            selectionData[1],
+            selectionData[2],
+            selectionData[3],
+            selectionData[4],
+            selectionData[5]
+          )
+        ),
+      ];
+
       setSelectionData([...selectionData, currentSelection, no_dup]);
       console.log([...selectionData, currentSelection, no_dup]);
     } else {
       setSelectionData([...selectionData, currentSelection]);
       console.log([...selectionData, currentSelection]);
+    }
+
+    console.log(slideIndex, total_slides, slideIndex === total_slides);
+    if (slideIndex === total_slides) {
+      console.log("proc");
+      add_to_firebase();
     }
   };
 
@@ -61,17 +104,30 @@ const App = () => {
   };
 
   const handleNextSlide = () => {
-    if (currentSelection !== null) {
+    if (slideIndex === total_slides - 1) {
+      setSlideIndex(slideIndex + 1);
+      saveSelectionData();
+    } else if (
+      slideIndex === 6 ||
+      slideIndex === 7 ||
+      slideIndex === 8 ||
+      slideIndex === 9 ||
+      slideIndex === 10 ||
+      slideIndex === 11
+    ) {
+      console.log(currentSelection);
+      setSlideIndex(slideIndex + 1);
+      saveSelectionData();
+      setCurrentSelection(null);
+    } else if (currentSelection !== null) {
       console.log(currentSelection);
       setSlideIndex(slideIndex + 1);
       saveSelectionData();
       setCurrentSelection(null);
     } else {
-      setNextBlocked(true)
+      setNextBlocked(true);
       setTimeout(() => setNextBlocked(false), 1000); // Turn off flashing after 0.5s
-
     }
-    
   };
 
   // const concatAll = () => {
@@ -84,7 +140,7 @@ const App = () => {
   //   ))]
 
   //   setSelectionData([...selectionData, no_dup]);
-  //   return no_dup 
+  //   return no_dup
   // }
 
   return (
@@ -106,7 +162,7 @@ const App = () => {
       /> */}
       {slideIndex < total_slides ? (
         <>
-        {/* =====================================================
+          {/* =====================================================
           
           Slides for inputing names into different categories 
           
@@ -115,7 +171,7 @@ const App = () => {
             <NodeInputSlide
               promptText="Some of your peers may be a safe person for you to turn to, during challenging, threatening, or uncertain times."
               promptText2="Think about any individuals who are a safe person for you to turn to when you are having a bad day or had a negative experience. Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="safe_persons"
@@ -125,7 +181,7 @@ const App = () => {
             <NodeInputSlide
               promptText="Some of your peers may be someone you want to stay in close proximity to, perhaps living near them or sticking by them at a social event or in class."
               promptText2="Think about any individuals you like staying within close proximity to. Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="close_proximity"
@@ -135,7 +191,7 @@ const App = () => {
             <NodeInputSlide
               promptText="Some of your peers may be someone who provides you with a sense of security, which then allows you to explore and more open to new experiences."
               promptText2="Think about any individuals who provide you with this sense of security. Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="sense_of_security"
@@ -145,7 +201,7 @@ const App = () => {
             <NodeInputSlide
               promptText="Some of your peers may be someone whom when they are not with you or when you are separated from them, you feel anxious or distressed."
               promptText2="Think about any individuals whom you feel anxious or distressed when separate from them. Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="anxious_or_distressed"
@@ -155,7 +211,7 @@ const App = () => {
             <NodeInputSlide
               promptText="If something good happened to you that you wanted to share with someone or just wanted to spend time with someone, who would you reach out to?"
               promptText2="Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="good_happened"
@@ -165,7 +221,7 @@ const App = () => {
             <NodeInputSlide
               promptText="If something bad happened to you that you wanted to share with someone or just wanted to spend time with someone, who would you reach out to?"
               promptText2="Please nominate each person who comes to mind. Type in the first name of each person."
-              maxNom="(max 10 nominations)"
+              maxNom={10}
               inlineText="Write name"
               updateCurrentSelection={updateCurrentSelection}
               id="bad_happened"
@@ -261,10 +317,10 @@ const App = () => {
           =====================================================*/}
           {slideIndex === 12 && (
             <NodeConnectionSlide
-              promptText={
-                "These are all of the individuals you nominated."
+              promptText={"These are all of the individuals you nominated."}
+              promptText2={
+                "Which of these individuals know each other? Draw a line between all individuals who know each other."
               }
-              promptText2={"Which of these individuals know each other? Draw a line between all individuals who know each other."}
               nodeNames={selectionData[12]}
               updateCurrentSelection={updateCurrentSelection}
               id="all_people"
@@ -275,24 +331,34 @@ const App = () => {
           Slides asking who knows each other 
           
           =====================================================*/}
-          <NextSlideButton
-            nextBlocked={nextBlocked}
-            onClick={handleNextSlide}
-          />
+          {slideIndex === 13 && (
+            <NodeInputSlide
+              promptText="Thank you for completing the mockup."
+              promptText2="Please add any kind of feedback"
+              maxNom={100}
+              inlineText="Write name"
+              updateCurrentSelection={updateCurrentSelection}
+              id="survey_feedback"
+            />
+          )}
         </>
       ) : (
         <>
-          <p>All slides have been completed.</p>
-          <div>
+          <p style={{ marginTop: 100 }}>
+            All slides have been completed. Please hit next slide one more time
+            to submit your survey
+          </p>
+          {/* <div>
             <h2>Selection Data:</h2>
             <ul>
               {selectionData.map((data, index) => (
                 <li key={index}>{data}</li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </>
       )}
+      <NextSlideButton nextBlocked={nextBlocked} onClick={handleNextSlide} />
     </div>
   );
 };
@@ -323,7 +389,7 @@ export default App;
 //   <NodeInputSlide
 //     promptText = "Some of your peers may be a safe person for you to turn to, during challenging, threatening, or uncertain times."
 //     promptText2 = "Think about any individuals who are a safe person for you to turn to when you are having a bad day or had a negative experience. Please nominate each person who comes to mind. Type in the first name of each person."
-//     maxNom = "(max 10 nominations)"
+//     maxNom = {10}
 //     inlineText = "Write name"
 //     updateCurrentSelection={updateCurrentSelection}
 //     nextBlocked = {nextBlocked}

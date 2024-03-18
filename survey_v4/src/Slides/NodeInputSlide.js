@@ -7,9 +7,6 @@ const NodeInputSlide = ({ promptText, promptText2, maxNom, inlineText, updateCur
   const [flash, setFlash] = useState(false); // State to toggle flashing effect
   const [notLongEnough, setNotLongEnough] = useState(false); // State to toggle flashing effect
   
-
-  const maximumNom = 10;
-
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -19,7 +16,7 @@ const NodeInputSlide = ({ promptText, promptText2, maxNom, inlineText, updateCur
     if (inputValue.trim() === "") {
       setNotLongEnough(true); // Activate flashing effect when input is empty
       setTimeout(() => setNotLongEnough(false), 1000); // Turn off flashing after 0.5s
-    } else if (items.length >= maximumNom) {
+    } else if (items.length >= maxNom) {
       setFlash(true); // Activate flashing effect when maxNom is reached
       setTimeout(() => setFlash(false), 1000); // Turn off flashing after 0.5s
     } else {
@@ -44,7 +41,7 @@ const NodeInputSlide = ({ promptText, promptText2, maxNom, inlineText, updateCur
       </form>
       <p className="error-message">{notLongEnough && 'Do not submit nothing!'}</p>
       <p className="error-message">{flash && 'Max limit reached!'}</p>
-      <h3 className="max-nom">{maxNom}</h3>
+      <h3 className="max-nom">{"(max "}{maxNom}{" nominations)"}</h3>
       <ul className="item-list">
         {items.map((item, index) => (
           <li key={index} id={index}>{index + 1}. {item}</li>
