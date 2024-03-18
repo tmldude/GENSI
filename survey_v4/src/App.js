@@ -15,7 +15,7 @@ const App = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [nextBlocked, setNextBlocked] = useState(false);
 
-  const total_slides = 5;
+  const total_slides = 10;
 
   const saveSelectionData = () => {
     setSelectionData([...selectionData, currentSelection]);
@@ -42,38 +42,53 @@ const App = () => {
   return (
     <div>
       <Banner logo={BannerImg} text={"Cornell University"} />
-      <NodeConnectionSlide
+      {/* <NodeConnectionSlide
               nodeNames = {['0', '1', '2', '3', '4', '5']}
               updateCurrentSelection={updateCurrentSelection}
               nextBlocked = {nextBlocked}
 
               
-            />
+            /> */}
       {slideIndex < total_slides ? (
         <>
           {slideIndex === 0 && (
-            <MultipleChoiceSlide
-             question = "What is the capital of France?"
-             options = {["Paris", "Berlin", "Madrid", "Rome"]}
-             updateSelection={updateCurrentSelection}
+            <NodeInputSlide
+              promptText = "Some of your peers may be a safe person for you to turn to, during challenging, threatening, or uncertain times."
+              promptText2 = "Think about any individuals who are a safe person for you to turn to when you are having a bad day or had a negative experience. Please nominate each person who comes to mind. Type in the first name of each person."
+              maxNom = "(max 10 nominations)"
+              inlineText = "Write name"
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}
+
             />
           )}
           {slideIndex === 1 && (
-            <MultipleChoiceSlide
-            question = "What is the capital of Japan?"
-            options = {["Tokyo", "Seoul", "Beijing", "Bangkok"]}
-              updateSelection={updateCurrentSelection}
+            <NodeInputSlide
+              promptText = "Some of your peers may be someone you want to stay in close proximity to, perhaps living near them or sticking by them at a social event or in class."              
+              promptText2 = "Think about any individuals you like staying within close proximity to. Please nominate each person who comes to mind. Type in the first name of each person."
+              maxNom = "(max 10 nominations)"
+              inlineText = "Write name"
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}
+
             />
           )}
           {slideIndex === 2 && (
-            <LikertScaleSlide
-              questions={["Hummus is good", "Bagels are good", "Tall", "Short"]} // Ensure to pass the 'question' property of the 'slide2' object
-              updateSelection={updateCurrentSelection}
+            <NodeInputSlide
+              promptText = "Some of your peers may be someone who provides you with a sense of security, which then allows you to explore and more open to new experiences."
+              promptText2 = "Think about any individuals who provide you with this sense of security. Please nominate each person who comes to mind. Type in the first name of each person."
+              maxNom = "(max 10 nominations)"
+              inlineText = "Write name"
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}
+
             />
           )}
           {slideIndex === 3 && (
             <NodeInputSlide
-              promptText = "Who are your closest friends?"
+              promptText = "Some of your peers may be someone whom when they are not with you or when you are separated from them, you feel anxious or distressed."
+              promptText2 = "Think about any individuals whom you feel anxious or distressed when separate from them. Please nominate each person who comes to mind. Type in the first name of each person."
+              maxNom = "(max 10 nominations)"
               inlineText = "Write name"
               updateCurrentSelection={updateCurrentSelection}
               nextBlocked = {nextBlocked}
@@ -81,14 +96,52 @@ const App = () => {
             />
           )}
           {slideIndex === 4 && (
-            <NodeConnectionSlide
-              nodeNames = {selectionData[3]}
+            <NodeInputSlide
+              promptText = "If something good happened to you that you wanted to share with someone or just wanted to spend time with someone, who would you reach out to?"
+              promptText2 = "Please nominate each person who comes to mind. Type in the first name of each person."
+              maxNom = "(max 10 nominations)"
+              inlineText = "Write name"
               updateCurrentSelection={updateCurrentSelection}
               nextBlocked = {nextBlocked}
 
-              
             />
           )}
+          {slideIndex === 5 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[0]}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}  
+            />
+          )}
+          {slideIndex === 6 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[1]}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}  
+            />
+          )}
+          {slideIndex === 7 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[2]}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}  
+            />
+          )}
+          {slideIndex === 8 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[3]}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}  
+            />
+          )}
+          {slideIndex === 9 && (
+            <NodeConnectionSlide
+              nodeNames = {selectionData[4]}
+              updateCurrentSelection={updateCurrentSelection}
+              nextBlocked = {nextBlocked}  
+            />
+          )}
+
 
           <NextSlideButton nextBlocked={nextBlocked} onClick={handleNextSlide} />
         </>
@@ -110,6 +163,39 @@ const App = () => {
 };
 
 export default App;
+
+
+// {slideIndex === 0 && (
+//   <MultipleChoiceSlide
+//    question = "What is the capital of France?"
+//    options = {["Paris", "Berlin", "Madrid", "Rome"]}
+//    updateSelection={updateCurrentSelection}
+//   />
+// )}
+// {slideIndex === 1 && (
+//   <MultipleChoiceSlide
+//   question = "What is the capital of Japan?"
+//   options = {["Tokyo", "Seoul", "Beijing", "Bangkok"]}
+//     updateSelection={updateCurrentSelection}
+//   />
+// )}
+// {slideIndex === 2 && (
+//   <LikertScaleSlide
+//     questions={["Hummus is good", "Bagels are good", "Tall", "Short"]} // Ensure to pass the 'question' property of the 'slide2' object
+//     updateSelection={updateCurrentSelection}
+//   />
+// )}
+// {slideIndex === 3 && (
+//   <NodeInputSlide
+//     promptText = "Some of your peers may be a safe person for you to turn to, during challenging, threatening, or uncertain times."
+//     promptText2 = "Think about any individuals who are a safe person for you to turn to when you are having a bad day or had a negative experience. Please nominate each person who comes to mind. Type in the first name of each person."
+//     maxNom = "(max 10 nominations)"
+//     inlineText = "Write name"
+//     updateCurrentSelection={updateCurrentSelection}
+//     nextBlocked = {nextBlocked}
+
+//   />
+// )}
 
 // {slideIndex < total_slides ? (
 //   <>

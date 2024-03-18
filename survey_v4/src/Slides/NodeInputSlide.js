@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./NodeInputSlide.css";
 
-const NodeInputSlide = ({promptText, inlineText, updateCurrentSelection, nextBlocked}) => {
+const NodeInputSlide = ({promptText, promptText2, maxNom, inlineText, updateCurrentSelection, nextBlocked}) => {
   const [inputValue, setInputValue] = useState("");
   const [items, setItems] = useState([]);
 
@@ -21,7 +21,8 @@ const NodeInputSlide = ({promptText, inlineText, updateCurrentSelection, nextBlo
 
   return (
     <div className="node-input-slide">
-      <h2 className="input-header">{promptText}</h2>
+      <h1 className="input-header">{promptText}</h1>
+      <h2 className="input-header">{promptText2}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -31,11 +32,13 @@ const NodeInputSlide = ({promptText, inlineText, updateCurrentSelection, nextBlo
         />
         <button type="submit">Add</button>
       </form>
+      <h3 className="max-nom">{maxNom}</h3>
       <ul className="item-list">
         {items.map((item, index) => (
-          <li key={index} id={index}>{item}</li>
+          <li key={index} id={index}>{index + 1}. {item}</li>
         ))}
       </ul>
+      
     </div>
   );
 };
