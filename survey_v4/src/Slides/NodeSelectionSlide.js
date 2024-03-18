@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./NodeSelectionSlide.css";
 import * as d3 from "d3";
 
-const DraggableBalls = ({ nodeNames, updateCurrentSelection, nextBlocked }) => {
+const DraggableBalls = ({ promptText, promptText2, nodeNames, updateCurrentSelection, nextBlocked }) => {
   const svgRef = useRef();
   const nodeBoxRef = useRef();
   const startLocationRef = useRef([]);
@@ -251,8 +251,15 @@ const DraggableBalls = ({ nodeNames, updateCurrentSelection, nextBlocked }) => {
   };
 
   return (
-    <div ref={nodeBoxRef} className="node-box">
-      <svg ref={svgRef} className="svg"></svg>
+    <div>
+      <div className="text-wrapper">
+        <h1 className="input-header">{promptText}</h1>
+        <h2 className="input-header-2">{promptText2}</h2>
+        <h3 className="input-header-2">{"INSTRUCTIONS: These nodes are dragable, click on one and another to draw a line"}</h3>
+      </div>
+      <div ref={nodeBoxRef} className="node-box">
+        <svg ref={svgRef} className="svg"></svg>
+      </div>
     </div>
   );
 };

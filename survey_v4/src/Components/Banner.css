@@ -10,8 +10,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    margin-bottom: 20px;
+    margin-bottom: auto;
     box-sizing: border-box;
+    z-index: 1000;
   }
   
   .logo-container {

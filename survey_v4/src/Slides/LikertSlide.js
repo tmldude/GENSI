@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './LikertSlide.css'; // Import CSS file for styling
-import LikertScale from './LikertScale';
+import LikertScale from './LikertScale.js';
 
 const LikertScaleSlide = ({ questions, updateSelection }) => {
   const [selectedOptions, setSelectedOptions] = useState(new Array(questions.length));

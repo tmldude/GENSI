@@ -3,10 +3,12 @@
 import React from 'react';
 import './NextSlideButton.css'; // Import CSS file for styling
 
-const NextSlideButton = ({ onClick }) => {
+const NextSlideButton = ({ onClick, nextBlocked }) => {
+
   return (
     <div className="next-slide-button-container">
-      <button onClick={onClick} className="next-slide-button">
+      <p className="error-message">{nextBlocked && 'Do not submit nothing!'}</p>
+      <button onClick={onClick} className={nextBlocked ? 'flash next-slide-button' : 'next-slide-button'}>
         Next Slide
       </button>
     </div>

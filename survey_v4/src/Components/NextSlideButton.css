@@ -20,4 +20,24 @@
   .next-slide-button:hover {
     background-color: #0056b3;
   }
+
+  /* Define a CSS animation for flashing red border */
+@keyframes flashRed {
+  0% { border-color: transparent; }
+  50% { border-color: red; }
+  100% { border-color: transparent; }
+}
+
+/* Apply the animation to the button when the 'flash' class is active */
+.flash {
+  animation: flashRed 1s infinite; /* Change '0.5s' to adjust the animation duration */
+}
+
+.error-message {
+  color: red; /* Text color */
+  font-size: 14px; /* Font size */
+  margin-top: 5px; /* Top margin for spacing */
+  margin-right: auto;
+}
+
   
